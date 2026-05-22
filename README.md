@@ -1,1 +1,2 @@
-# docker-proxy-X-Forwarded-For
+# Тестовый стенд для проверки X-Forwarded-For в цепочке nginx
+

@@ -1,0 +1,61 @@
+services:
+  nginx1:
+    image: nginx:alpine
+    container_name: nginx1
+    ports:
+      - "8081:80"
+    configs:
+      - source: nginx1
+        target: /etc/nginx/nginx.conf
+        mode: 0644
+    networks:
+      proxy_net:
+        ipv4_address: 10.2.0.10
+
+  nginx2:
+    image: nginx:alpine
+    container_name: nginx2
+    ports:
+      - "8082:80"
+    configs:
+      - source: nginx2
+        target: /etc/nginx/nginx.conf
+        mode: 0644
+    networks:
+      proxy_net:
+        ipv4_address: 10.2.0.11
+
+  nginx3:
+    image: nginx:alpine
+    container_name: nginx3
+    ports:
+      - "8083:80"    
+    configs:
+      - source: nginx3
+        target: /etc/nginx/nginx.conf
+        mode: 0644
+    networks:
+      proxy_net:
+        ipv4_address: 10.2.0.12
+
+  nginx-web:
+    build: ./nginx-web
+    container_name: nginx-web
+    networks:
+      proxy_net:
+        ipv4_address: 10.2.0.13
+
+configs:
+  nginx1:
+    file: ./nginx/nginx1.conf
+  nginx2:
+    file: ./nginx/nginx2.conf
+  nginx3:
+    file: ./nginx/nginx3.conf
+
+networks:
+  proxy_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.2.0.0/16
